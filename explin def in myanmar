@@ -1,0 +1,250 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyMaQOMk3KYaA8ykqQBOufB+",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Alexkanary/Test/blob/main/explin%20def%20in%20myanmar\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "f47e631b"
+      },
+      "source": [
+        "## ပရော်ဖက်ရှင်နယ်ဆန်သော Python Functions များ ရေးသားခြင်း\n",
+        "\n",
+        "ပရော်ဖက်ရှင်နယ်ဆန်သော Python function များ ရေးသားခြင်းဆိုသည်မှာ code ကို ဖတ်ရလွယ်ကူစေရန်၊ ပြုပြင်ထိန်းသိမ်းရလွယ်ကူစေရန်၊ ခိုင်မာစေရန်နှင့် ချဲ့ထွင်နိုင်စေရန်အတွက် အကောင်းဆုံးအလေ့အကျင့်များကို လိုက်နာခြင်းဖြစ်သည်။ အောက်တွင် အဓိကအချက်များနှင့် ဥပမာများကို ပြသထားပါသည်။"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "5364ced4"
+      },
+      "source": [
+        "### ၁။ ရှင်းလင်းသော အမည်ပေးခြင်းနှင့် Docstring များ\n",
+        "\n",
+        "Function များနှင့် ၎င်းတို့၏ argument များအတွက် အဓိပ္ပာယ်ရှိသော အမည်များကို အသုံးပြုပါ။ Function ပြီးသည်နှင့် ချက်ချင်း `\"\"\"` (multi-line string) ဖြင့် Docstring ကို အမြဲထည့်သွင်း၍ function က ဘာလုပ်သည်၊ မည်သည့် argument များကို လက်ခံသည်၊ ဘာကို ပြန်ပေးသည် စသည်တို့ကို ရှင်းပြပါ။ ၎င်းသည် မည်သူမဆို (သင်၏နောင်ရေးအတွက်ပင်) သင်၏ code ကို နားလည်ရန် အလွန်အရေးကြီးပါသည်။ ထို့ပြင် Type Hint များကိုလည်း ပိုမိုရှင်းလင်းစေရန်နှင့် static analysis tools များ အသုံးပြုနိုင်ရန် ထည့်သွင်းပါ။"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "361d5bb3"
+      },
+      "source": [
+        "def calculate_rectangle_area(length: float, width: float) -> float:\n",
+        "    \"\"\"\n",
+        "    စတုဂံ၏ ဧရိယာကို တွက်ချက်သည်။\n",
+        "\n",
+        "    Args:\n",
+        "        length (float): စတုဂံ၏ အလျား။\n",
+        "        width (float): စတုဂံ၏ အနံ။\n",
+        "\n",
+        "    Returns:\n",
+        "        float: စတုဂံ၏ ဧရိယာ။\n",
+        "    \"\"\"\n",
+        "    # အလျားနှင့်အနံသည် အနှုတ်တန်ဖိုး မဖြစ်ရပါ။\n",
+        "    if length < 0 or width < 0:\n",
+        "        raise ValueError(\"အလျားနှင့်အနံသည် အနှုတ်တန်ဖိုး မဖြစ်ရပါ။\")\n",
+        "    return length * width\n",
+        "\n",
+        "# အသုံးပြုပုံ ဥပမာ:\n",
+        "area = calculate_rectangle_area(10.5, 5.2)\n",
+        "print(f\"ဧရိယာ: {area}\")"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "dea2fdb2"
+      },
+      "source": [
+        "### ၂။ Default Argument များနှင့် Error Handling\n",
+        "\n",
+        "ရွေးချယ်နိုင်သော parameter များအတွက် default တန်ဖိုးများကို ထောက်ပံ့ပေးခြင်းဖြင့် function များကို ပိုမိုပြောင်းလွယ်ပြင်လွယ် ဖြစ်စေသည်။ မှားယွင်းသော ထည့်သွင်းမှုများ သို့မဟုတ် မမျှော်လင့်ထားသော အခြေအနေများမှ ကာကွယ်ရန် error handling (ဥပမာ: `try-except` blocks သို့မဟုတ် သင့်လျော်သော exceptions များကို `raise` လုပ်ခြင်း) ကို အကောင်အထည်ဖော်ပါ။"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "c5750733"
+      },
+      "source": [
+        "def divide_numbers(numerator: float, denominator: float = 1.0) -> float:\n",
+        "    \"\"\"\n",
+        "    ဂဏန်းနှစ်ခုကို စားသည်။ denominator ကို default တန်ဖိုးပေးထားသည်။\n",
+        "\n",
+        "    Args:\n",
+        "        numerator (float): အစားခံရမည့် ဂဏန်း။\n",
+        "        denominator (float, optional): အစားခံရမည့် ဂဏန်း။ default မှာ 1.0 ဖြစ်သည်။\n",
+        "\n",
+        "    Returns:\n",
+        "        float: စားခြင်း၏ ရလဒ်။\n",
+        "\n",
+        "    Raises:\n",
+        "        ValueError: denominator သုည ဖြစ်ပါက။\n",
+        "    \"\"\"\n",
+        "    # သုညဖြင့် စား၍မရပါ။\n",
+        "    if denominator == 0:\n",
+        "        raise ValueError(\"သုညဖြင့် စား၍မရပါ။\")\n",
+        "    return numerator / denominator\n",
+        "\n",
+        "# default denominator ဖြင့် အသုံးပြုပုံ ဥပမာ:\n",
+        "result1 = divide_numbers(10)\n",
+        "print(f\"10 ကို 1 (default) ဖြင့် စားခြင်း: {result1}\")\n",
+        "\n",
+        "# သတ်မှတ်ထားသော denominator ဖြင့် အသုံးပြုပုံ ဥပမာ:\n",
+        "result2 = divide_numbers(10, 2.5)\n",
+        "print(f\"10 ကို 2.5 ဖြင့် စားခြင်း: {result2}\")\n",
+        "\n",
+        "# error handling ဖြင့် အသုံးပြုပုံ ဥပမာ:\n",
+        "try:\n",
+        "    divide_numbers(10, 0)\n",
+        "except ValueError as e:\n",
+        "    print(f\"Error: {e}\")"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "8c8e4c2e"
+      },
+      "source": [
+        "### ၃။ `*args` နှင့် `**kwargs` ကို Flexible Argument များအတွက် အသုံးပြုခြင်း\n",
+        "\n",
+        "Function တစ်ခုသည် မည်မျှသော positional သို့မဟုတ် keyword argument များကို လက်ခံမည်ကို မသိနိုင်သည့်အခါများရှိသည်။ `*args` သည် function အား positional argument များကို အရေအတွက် အကန့်အသတ်မရှိ လက်ခံနိုင်စေပြီး `**kwargs` သည် keyword argument များကို အရေအတွက် အကန့်အသတ်မရှိ လက်ခံနိုင်စေသည်။"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "3e47a9db"
+      },
+      "source": [
+        "def process_data(operation: str, *args: float, **kwargs: str) -> None:\n",
+        "    \"\"\"\n",
+        "    ပေးထားသော operation ကို ဂဏန်းများပေါ်တွင် လုပ်ဆောင်ပြီး ထပ်ဆောင်းရွေးချယ်မှုများကို ကိုင်တွယ်သည်။\n",
+        "\n",
+        "    Args:\n",
+        "        operation (str): လုပ်ဆောင်ရမည့် operation (ဥပမာ: 'sum', 'product')။\n",
+        "        *args (float): arbitrary positional argument များ (ဂဏန်းများ)။\n",
+        "        **kwargs (str): arbitrary keyword argument များ (ဥပမာ: 'verbose', 'log_level')။\n",
+        "\n",
+        "    Returns:\n",
+        "        None\n",
+        "    \"\"\"\n",
+        "    print(f\"လုပ်ဆောင်ချက်: {operation}\")\n",
+        "    print(f\"ပေးထားသော ဂဏန်းများ: {args}\")\n",
+        "    print(f\"ထပ်ဆောင်းရွေးချယ်မှုများ: {kwargs}\")\n",
+        "\n",
+        "    if operation == 'sum':\n",
+        "        total = sum(args)\n",
+        "        print(f\"ဂဏန်းများ၏ ပေါင်းလဒ်: {total}\")\n",
+        "    elif operation == 'product':\n",
+        "        product = 1\n",
+        "        for num in args:\n",
+        "            product *= num\n",
+        "        print(f\"ဂဏန်းများ၏ မြှောက်လဒ်: {product}\")\n",
+        "    else:\n",
+        "        print(f\"မသိသော လုပ်ဆောင်ချက်: {operation}\")\n",
+        "\n",
+        "    if 'verbose' in kwargs and kwargs['verbose'].lower() == 'true':\n",
+        "        print(\"Verbose output ကို ဖွင့်ထားသည်။\")\n",
+        "\n",
+        "# အသုံးပြုပုံ ဥပမာ:\n",
+        "process_data('sum', 1, 2, 3, 4, verbose='true', log_level='info')\n",
+        "print(\"---\\n\")\n",
+        "process_data('product', 5, 2, 3)\n",
+        "print(\"---\\n\")\n",
+        "process_data('average', 10, 20, 30, unit='meters')\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "34b51494"
+      },
+      "source": [
+        "### ၄။ Single Responsibility Principle (SRP) - တစ်တာဝန်ခံ နိယာမ\n",
+        "\n",
+        "Function တစ်ခုသည် တာဝန်တစ်ခုတည်းကိုသာ လုပ်ဆောင်ပြီး ၎င်းကို ကောင်းစွာလုပ်ဆောင်နိုင်စေရန် ရည်ရွယ်ပါ။ ၎င်းသည် သင်၏ code ကို စမ်းသပ်ရလွယ်ကူစေရန်၊ debug လုပ်ရလွယ်ကူစေရန်နှင့် ပြန်လည်အသုံးပြုရလွယ်ကူစေရန် ကူညီပေးသည်။"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "7aa8f4d0"
+      },
+      "source": [
+        "def fetch_user_data(user_id: int) -> dict:\n",
+        "    \"\"\"\n",
+        "    (အစမ်း) database မှ user data ကို ရယူသည်။\n",
+        "    \"\"\"\n",
+        "    print(f\"user_id: {user_id} အတွက် data များကို ရယူနေသည်။\")\n",
+        "    # database ခေါ်ဆိုမှုကို အတုယူသည်။\n",
+        "    if user_id == 1:\n",
+        "        return {\"id\": 1, \"name\": \"Alice\", \"email\": \"alice@example.com\"}\n",
+        "    else:\n",
+        "        return {}\n",
+        "\n",
+        "def format_user_info(user_data: dict) -> str:\n",
+        "    \"\"\"\n",
+        "    user data ကို ဖတ်ရလွယ်ကူသော string အဖြစ် ပြောင်းလဲသည်။\n",
+        "    \"\"\"\n",
+        "    if not user_data:\n",
+        "        return \"User ကို ရှာမတွေ့ပါ။\"\n",
+        "    return f\"အမည်: {user_data.get('name', 'N/A')}, အီးမေးလ်: {user_data.get('email', 'N/A')}\"\n",
+        "\n",
+        "# အသုံးပြုပုံ ဥပမာ:\n",
+        "user_id = 1\n",
+        "raw_data = fetch_user_data(user_id)\n",
+        "formatted_output = format_user_info(raw_data)\n",
+        "print(formatted_output)\n",
+        "\n",
+        "user_id = 2\n",
+        "raw_data = fetch_user_data(user_id)\n",
+        "formatted_output = format_user_info(raw_data)\n",
+        "print(formatted_output)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "25ccd42f"
+      },
+      "source": [
+        "ဤလမ်းညွှန်ချက်များကို လိုက်နာခြင်းဖြင့် သင်၏ Python functions များသည် ပိုမို ပရော်ဖက်ရှင်နယ်ဆန်ပြီး နားလည်ရလွယ်ကူကာ ခိုင်မာလာမည်ဖြစ်သည်။"
+      ]
+    }
+  ]
+}
